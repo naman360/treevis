@@ -1,4 +1,10 @@
-class Node {
+export type Node = {
+  value: number | null;
+  left: Node | null;
+  right: Node | null;
+  getTreeHeight: () => number;
+};
+export class BinaryTree {
   value: number | null = null;
   left: Node | null = null;
   right: Node | null = null;
@@ -23,5 +29,3 @@ class Node {
     return Math.max(leftSubtree, rightSubtree) + 1;
   }
 }
-
-export default Node;
