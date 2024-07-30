@@ -1,11 +1,8 @@
 import "./App.css";
+import TreeVisualiser from "./components/TreeVisualiser";
 
 function App() {
-  return (
-    <>
-      <h1>Hello World from Vite</h1>
-    </>
-  );
+  return <TreeVisualiser />;
 }
 
 export default App;
