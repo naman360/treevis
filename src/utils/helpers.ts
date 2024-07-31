@@ -31,17 +31,29 @@ const drawNode = (
   /* For drawing node value */
   context.font = `${DRAWING_CONFIG.fontSize}px serif`;
   context.textAlign = "center";
-  context.fillText(node.value?.toString()!, arcX, arcY);
+  context.fillText(
+    node.value?.toString()!,
+    arcX,
+    arcY + DRAWING_CONFIG.fontSize / 2
+  );
 };
 
 const drawTree = (
   root: BinaryTree,
   canvas: HTMLCanvasElement | null,
+  level: number,
   startX: number,
   endX: number
 ) => {
-  const arcCenterX = (startX + endX) / 2;
-  const arcCenterY = DRAWING_CONFIG.nodeVerticalSpace / 2;
+  const arcCenterX = (startX + endX) / 2; /* Midpoint of tree area on X axis */
+  const arcCenterY = (level * DRAWING_CONFIG.nodeVerticalSpace) / 2;
+  console.log(root.value);
   drawNode(root, canvas, arcCenterX, arcCenterY);
+  if (root.left) {
+    drawTree(root.left, canvas, level + 1, startX, arcCenterX);
+  }
+  if (root.right) {
+    drawTree(root.right, canvas, level + 1, arcCenterX, endX);
+  }
 };
 export { getActualTreeDimensions, drawTree, drawNode };

@@ -6,8 +6,8 @@ export type Node = {
 };
 export class BinaryTree {
   value: number | null = null;
-  left: Node | null = null;
-  right: Node | null = null;
+  left: BinaryTree | null = null;
+  right: BinaryTree | null = null;
 
   constructor(value: number) {
     this.value = value;
@@ -15,11 +15,11 @@ export class BinaryTree {
     this.right = null;
   }
 
-  setLeftNode(leftNode: Node) {
+  setLeftNode(leftNode: BinaryTree) {
     this.left = leftNode;
   }
 
-  setRightNode(rightNode: Node) {
+  setRightNode(rightNode: BinaryTree) {
     this.right = rightNode;
   }
 
