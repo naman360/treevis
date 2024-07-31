@@ -21,6 +21,17 @@ const drawNode = (
   context.arc(arcX, arcY, DRAWING_CONFIG.circleRadius, 0, 2 * Math.PI);
   context.fillStyle = "#90EE90";
   context.fill();
+
+  /* For drawing border */
+  context.beginPath();
+  context.arc(arcX, arcY, DRAWING_CONFIG.circleRadius, 0, 2 * Math.PI);
+  context.fillStyle = "#000";
+  context.stroke();
+
+  /* For drawing node value */
+  context.font = `${DRAWING_CONFIG.fontSize}px serif`;
+  context.textAlign = "center";
+  context.fillText(node.value?.toString()!, arcX, arcY);
 };
 
 const drawTree = (
