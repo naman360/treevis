@@ -47,13 +47,47 @@ const drawTree = (
 ) => {
   const arcCenterX = (startX + endX) / 2; /* Midpoint of tree area on X axis */
   const arcCenterY = (level * DRAWING_CONFIG.nodeVerticalSpace) / 2;
-  console.log(root.value);
+
   drawNode(root, canvas, arcCenterX, arcCenterY);
+
   if (root.left) {
     drawTree(root.left, canvas, level + 1, startX, arcCenterX);
+    drawEdges(
+      canvas,
+      arcCenterX,
+      arcCenterY + DRAWING_CONFIG.circleRadius,
+      (arcCenterX + startX) / 2,
+      ((level + 1) * DRAWING_CONFIG.nodeVerticalSpace) / 2 -
+        DRAWING_CONFIG.circleRadius
+    );
   }
   if (root.right) {
     drawTree(root.right, canvas, level + 1, arcCenterX, endX);
+    drawEdges(
+      canvas,
+      arcCenterX,
+      arcCenterY + DRAWING_CONFIG.circleRadius,
+      (arcCenterX + endX) / 2,
+      ((level + 1) * DRAWING_CONFIG.nodeVerticalSpace) / 2 -
+        DRAWING_CONFIG.circleRadius
+    );
   }
 };
-export { getActualTreeDimensions, drawTree, drawNode };
+
+const drawEdges = (
+  canvas: HTMLCanvasElement | null,
+  xStart: number,
+  yStart: number,
+  xEnd: number,
+  yEnd: number
+) => {
+  const context = canvas?.getContext("2d");
+  if (!context) return;
+  context.beginPath();
+  context.moveTo(xStart, yStart);
+  context.strokeStyle = "#000";
+  context.lineTo(xEnd, yEnd);
+  context.stroke();
+};
+
+export { getActualTreeDimensions, drawTree, drawNode, drawEdges };

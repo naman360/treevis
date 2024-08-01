@@ -1,6 +1,6 @@
 export const DRAWING_CONFIG = {
   circleRadius: 15,
-  nodeVerticalSpace: 60,
-  nodeHorizontalSpace: 30,
+  nodeVerticalSpace: 100,
+  nodeHorizontalSpace: 40,
   fontSize: 14,
 };
