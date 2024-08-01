@@ -1,10 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BinaryTree } from "../utils/binary-tree";
 import { drawTree, getActualTreeDimensions } from "../utils/helpers";
 
 const TreeVisualiser = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
+  const [values, setValues] = useState<string>("");
   useEffect(() => {
     canvasRef.current!.width = window.innerWidth;
     canvasRef.current!.height = window.innerHeight;
@@ -49,6 +49,10 @@ const TreeVisualiser = () => {
 
   return (
     <div>
+      <div>
+        <textarea value={values} onChange={(e) => setValues(e.target.value)} />
+        <button>Create Tree</button>
+      </div>
       <canvas ref={canvasRef} />
     </div>
   );
