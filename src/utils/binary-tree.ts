@@ -1,9 +1,3 @@
-export type Node = {
-  value: number | null;
-  left: Node | null;
-  right: Node | null;
-  getTreeHeight: () => number;
-};
 export class BinaryTree {
   value: number | null = null;
   left: BinaryTree | null = null;

@@ -1,7 +1,7 @@
-import { BinaryTree, Node } from "./binary-tree";
+import { BinaryTree } from "./binary-tree";
 import { DRAWING_CONFIG } from "./constants";
 
-const getActualTreeDimensions = (root: Node) => {
+const _getActualTreeDimensions = (root: BinaryTree) => {
   const treeActualHeight =
     root.getTreeHeight() * DRAWING_CONFIG.nodeVerticalSpace;
   const treeActualWidth =
@@ -9,7 +9,7 @@ const getActualTreeDimensions = (root: Node) => {
   return { treeActualHeight, treeActualWidth };
 };
 
-const drawNode = (
+const _drawNode = (
   node: BinaryTree,
   canvas: HTMLCanvasElement | null,
   arcX: number,
@@ -45,12 +45,12 @@ const initiateDrawing = (
   const context = canvas?.getContext("2d");
   if (!context) return;
   context?.clearRect(0, 0, canvas?.width!, canvas?.height!);
-  const { treeActualHeight, treeActualWidth } = getActualTreeDimensions(root);
+  const { treeActualWidth } = _getActualTreeDimensions(root);
   const startX = (window.innerWidth - treeActualWidth) / 2;
   const endX = startX + treeActualWidth;
-  drawTree(root, canvas, 0.5, startX, endX);
+  _drawTree(root, canvas, 0.5, startX, endX);
 };
-const drawTree = (
+const _drawTree = (
   root: BinaryTree,
   canvas: HTMLCanvasElement | null,
   level: number,
@@ -60,11 +60,11 @@ const drawTree = (
   const arcCenterX = (startX + endX) / 2; /* Midpoint of tree area on X axis */
   const arcCenterY = (level * DRAWING_CONFIG.nodeVerticalSpace) / 2;
 
-  drawNode(root, canvas, arcCenterX, arcCenterY);
+  _drawNode(root, canvas, arcCenterX, arcCenterY);
 
   if (root.left) {
-    drawTree(root.left, canvas, level + 1, startX, arcCenterX);
-    drawEdges(
+    _drawTree(root.left, canvas, level + 1, startX, arcCenterX);
+    _drawEdges(
       canvas,
       arcCenterX,
       arcCenterY + DRAWING_CONFIG.circleRadius,
@@ -74,8 +74,8 @@ const drawTree = (
     );
   }
   if (root.right) {
-    drawTree(root.right, canvas, level + 1, arcCenterX, endX);
-    drawEdges(
+    _drawTree(root.right, canvas, level + 1, arcCenterX, endX);
+    _drawEdges(
       canvas,
       arcCenterX,
       arcCenterY + DRAWING_CONFIG.circleRadius,
@@ -86,7 +86,7 @@ const drawTree = (
   }
 };
 
-const drawEdges = (
+const _drawEdges = (
   canvas: HTMLCanvasElement | null,
   xStart: number,
   yStart: number,
@@ -122,10 +122,10 @@ const createTree = (values: string) => {
   const root = new BinaryTree(parseInt(levelOrderTraversal[index]!));
   index++;
   queue.push(root);
-  console.log(levelOrderTraversal);
+
   while (queue.length > 0 && index < levelOrderTraversal.length) {
     const currentElement = queue.shift();
-    console.log(currentElement);
+
     /* For left child */
     if (index < levelOrderTraversal.length) {
       if (levelOrderTraversal[index]) {
@@ -151,11 +151,5 @@ const createTree = (values: string) => {
 
   return root;
 };
-export {
-  getActualTreeDimensions,
-  drawTree,
-  drawNode,
-  drawEdges,
-  createTree,
-  initiateDrawing,
-};
+
+export { createTree, initiateDrawing };
