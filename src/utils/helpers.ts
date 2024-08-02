@@ -38,6 +38,18 @@ const drawNode = (
   );
 };
 
+const initiateDrawing = (
+  root: BinaryTree,
+  canvas: HTMLCanvasElement | null
+) => {
+  const context = canvas?.getContext("2d");
+  if (!context) return;
+  context?.clearRect(0, 0, canvas?.width!, canvas?.height!);
+  const { treeActualHeight, treeActualWidth } = getActualTreeDimensions(root);
+  const startX = (window.innerWidth - treeActualWidth) / 2;
+  const endX = startX + treeActualWidth;
+  drawTree(root, canvas, 0.5, startX, endX);
+};
 const drawTree = (
   root: BinaryTree,
   canvas: HTMLCanvasElement | null,
@@ -90,4 +102,60 @@ const drawEdges = (
   context.stroke();
 };
 
-export { getActualTreeDimensions, drawTree, drawNode, drawEdges };
+const _parseValues = (values: string) => {
+  let parsedValues = "";
+  for (let i = 0; i < values.length; i++) {
+    if (values[i] !== " ") parsedValues += values[i];
+  }
+
+  const valuesArray = parsedValues.split(",").map((el) => {
+    if (el === "null") return null;
+    return el;
+  });
+  return valuesArray;
+};
+
+const createTree = (values: string) => {
+  let levelOrderTraversal = _parseValues(values);
+  const queue: BinaryTree[] = [];
+  let index = 0;
+  const root = new BinaryTree(parseInt(levelOrderTraversal[index]!));
+  index++;
+  queue.push(root);
+  console.log(levelOrderTraversal);
+  while (queue.length > 0 && index < levelOrderTraversal.length) {
+    const currentElement = queue.shift();
+    console.log(currentElement);
+    /* For left child */
+    if (index < levelOrderTraversal.length) {
+      if (levelOrderTraversal[index]) {
+        const leftChild = new BinaryTree(parseInt(levelOrderTraversal[index]!));
+        currentElement?.setLeftNode(leftChild);
+        queue.push(leftChild);
+      }
+      index++;
+    }
+
+    /* For right child */
+    if (index < levelOrderTraversal.length) {
+      if (levelOrderTraversal[index]) {
+        const rightChild = new BinaryTree(
+          parseInt(levelOrderTraversal[index]!)
+        );
+        currentElement?.setRightNode(rightChild);
+        queue.push(rightChild);
+      }
+      index++;
+    }
+  }
+
+  return root;
+};
+export {
+  getActualTreeDimensions,
+  drawTree,
+  drawNode,
+  drawEdges,
+  createTree,
+  initiateDrawing,
+};
