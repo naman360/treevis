@@ -1,6 +1,7 @@
 import { BinaryTree } from "./binary-tree";
 import { DRAWING_CONFIG } from "./constants";
 
+/* Private functions (not to be exported) */
 const _getActualTreeDimensions = (root: BinaryTree) => {
   const treeActualHeight =
     root.getTreeHeight() * DRAWING_CONFIG.nodeVerticalSpace;
@@ -38,18 +39,6 @@ const _drawNode = (
   );
 };
 
-const initiateDrawing = (
-  root: BinaryTree,
-  canvas: HTMLCanvasElement | null
-) => {
-  const context = canvas?.getContext("2d");
-  if (!context) return;
-  context?.clearRect(0, 0, canvas?.width!, canvas?.height!);
-  const { treeActualWidth } = _getActualTreeDimensions(root);
-  const startX = (window.innerWidth - treeActualWidth) / 2;
-  const endX = startX + treeActualWidth;
-  _drawTree(root, canvas, 0.5, startX, endX);
-};
 const _drawTree = (
   root: BinaryTree,
   canvas: HTMLCanvasElement | null,
@@ -115,6 +104,7 @@ const _parseValues = (values: string) => {
   return valuesArray;
 };
 
+/* Public functions (for public use) */
 const createTree = (values: string) => {
   let levelOrderTraversal = _parseValues(values);
   const queue: BinaryTree[] = [];
@@ -150,6 +140,19 @@ const createTree = (values: string) => {
   }
 
   return root;
+};
+
+const initiateDrawing = (
+  root: BinaryTree,
+  canvas: HTMLCanvasElement | null
+) => {
+  const context = canvas?.getContext("2d");
+  if (!context) return;
+  context?.clearRect(0, 0, canvas?.width!, canvas?.height!);
+  const { treeActualWidth } = _getActualTreeDimensions(root);
+  const startX = (window.innerWidth - treeActualWidth) / 2;
+  const endX = startX + treeActualWidth;
+  _drawTree(root, canvas, 0.5, startX, endX);
 };
 
 export { createTree, initiateDrawing };
